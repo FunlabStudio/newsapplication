@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapplication/screens/homePage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 sizeBox() {
   return SizedBox(
@@ -46,6 +47,10 @@ class _LoginPageState extends State<LoginPage> {
                   .createUserWithEmailAndPassword(
                       email: _email, password: _password))
               .user;
+          if (isSwitched) {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString('UserId', user.uid);
+          }
 
           print(user.uid);
           print(user);
