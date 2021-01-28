@@ -20,6 +20,7 @@ enum FormType {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool isSwitched = false;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   bool seePassword = true;
@@ -115,63 +116,148 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   List<Widget> buildInputs() {
-    return <Widget>[
-      //Email
-      TextFormField(
-        key: Key('email'),
-        decoration: InputDecoration(labelText: 'Email'),
-        validator: (val) {
-          return RegExp(
-                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                  .hasMatch(val)
-              ? null
-              : "Please Enter Correct Email";
-        },
-        onSaved: (String value) => _email = value,
-      ),
-
-      sizeBox(),
-
-      //Password
-      TextFormField(
-        key: Key('password'),
-        //maxLength: 8,
-        decoration: InputDecoration(
-          suffixIcon: IconButton(
-            icon: seePassword
-                ? Icon(
-                    CupertinoIcons.eye_slash_fill,
-                    color: Colors.black,
-                  )
-                : Icon(CupertinoIcons.eye, color: Colors.black),
-            onPressed: () {
-              setState(() {
-                seePassword = !seePassword;
-              });
-            },
-          ),
-          labelText: 'Password',
+    if (_formType == FormType.login) {
+      return <Widget>[
+        //Email
+        TextFormField(
+          key: Key('email'),
+          decoration: InputDecoration(labelText: 'Email'),
+          validator: (val) {
+            return RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    .hasMatch(val)
+                ? null
+                : "Please Enter Correct Email";
+          },
+          onSaved: (String value) => _email = value,
         ),
-        obscureText: seePassword,
-        // ignore: missing_return
-        validator: (val) {
-          if (val.length <= 6) {
-            if (val.isEmpty) {
-              return 'Field Cannot Be Empty';
+        sizeBox(),
+        //Password
+        TextFormField(
+          key: Key('password'),
+          //maxLength: 8,
+          decoration: InputDecoration(
+            suffixIcon: IconButton(
+              icon: seePassword
+                  ? Icon(
+                      CupertinoIcons.eye_slash_fill,
+                      color: Colors.black,
+                    )
+                  : Icon(CupertinoIcons.eye, color: Colors.black),
+              onPressed: () {
+                setState(() {
+                  seePassword = !seePassword;
+                });
+              },
+            ),
+            labelText: 'Password',
+          ),
+          obscureText: seePassword,
+          // ignore: missing_return
+          validator: (val) {
+            if (val.length <= 6) {
+              if (val.isEmpty) {
+                return 'Field Cannot Be Empty';
+              }
+              if (val.length < 5) {
+                return 'Password Cant not be less than 7 Characters';
+              }
+              if (val.length > 7) {
+                return 'Password Cant not be More than 25 Characters';
+              }
+              return null;
             }
-            if (val.length < 5) {
-              return 'Password Cant not be less than 7 Characters';
+          },
+          onSaved: (String value) => _password = value,
+        ),
+        sizeBox(),
+        Switch(
+          value: isSwitched,
+          onChanged: (value) {
+            setState(() {
+              isSwitched = value;
+              print(isSwitched);
+            });
+          },
+          inactiveTrackColor: Colors.black12,
+          activeTrackColor: Colors.black26,
+          activeColor: Colors.teal,
+          inactiveThumbColor: Colors.black,
+        )
+      ];
+    } else {
+      return <Widget>[
+        //Email
+        TextFormField(
+          key: Key('email'),
+          decoration: InputDecoration(labelText: 'Email'),
+          validator: (val) {
+            return RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    .hasMatch(val)
+                ? null
+                : "Please Enter Correct Email";
+          },
+          onSaved: (String value) => _email = value,
+        ),
+        sizeBox(),
+        //Password
+        TextFormField(
+          key: Key('password'),
+          //maxLength: 8,
+          decoration: InputDecoration(
+            suffixIcon: IconButton(
+              icon: seePassword
+                  ? Icon(
+                      CupertinoIcons.eye_slash_fill,
+                      color: Colors.black,
+                    )
+                  : Icon(CupertinoIcons.eye, color: Colors.black),
+              onPressed: () {
+                setState(() {
+                  seePassword = !seePassword;
+                });
+              },
+            ),
+            labelText: 'Password',
+          ),
+          obscureText: seePassword,
+          // ignore: missing_return
+          validator: (val) {
+            if (val.length <= 6) {
+              if (val.isEmpty) {
+                return 'Field Cannot Be Empty';
+              }
+              if (val.length < 5) {
+                return 'Password Cant not be less than 7 Characters';
+              }
+              if (val.length > 7) {
+                return 'Password Cant not be More than 25 Characters';
+              }
+              return null;
             }
-            if (val.length > 7) {
-              return 'Password Cant not be More than 25 Characters';
-            }
-            return null;
-          }
-        },
-        onSaved: (String value) => _password = value,
-      ),
-      sizeBox(),
-    ];
+          },
+          onSaved: (String value) => _password = value,
+        ),
+        sizeBox(),
+      ];
+    }
+  }
+
+  Switch remember() {
+    return Switch(
+      value: isSwitched,
+      onChanged: (value) {
+        setState(() {
+          isSwitched = value;
+          print(isSwitched);
+        });
+      },
+      inactiveTrackColor: Colors.black12,
+      activeTrackColor: Colors.black26,
+      activeColor: Colors.teal,
+      inactiveThumbColor: Colors.black,
+    );
   }
 
   List<Widget> buildSubmitButtons() {
