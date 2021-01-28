@@ -5,7 +5,7 @@ import 'package:newsapplication/screens/login.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
-  SplashScreenState createState() => SplashScreenState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
