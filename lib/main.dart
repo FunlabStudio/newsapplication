@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme:
           ThemeData(primarySwatch: Colors.blue, accentColor: Colors.redAccent),
-      home: LoginPage(),
+      home: SplashScreen(),
     );
   }
 }
