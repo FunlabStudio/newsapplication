@@ -42,23 +42,26 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> validateAndSubmit() async {
     if (validateAndSave()) {
       try {
+        //Create User
         if (_formType == FormType.register) {
           User user = (await FirebaseAuth.instance
                   .createUserWithEmailAndPassword(
                       email: _email, password: _password))
               .user;
-          if (isSwitched) {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString('UserId', user.uid);
-          }
 
           print(user.uid);
           print(user);
           //return
+
+          //Sign In
         } else {
           User user = (await FirebaseAuth.instance.signInWithEmailAndPassword(
                   email: _email, password: _password))
               .user;
+          if (isSwitched) {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString('UserId', user.uid);
+          }
           //print(user.updatePassword('0001110'));
           print(user.uid);
           return await Navigator.push(
@@ -69,6 +72,15 @@ class _LoginPageState extends State<LoginPage> {
         if (e.code == 'too-many-requests') {
           scaffoldKey.currentState
               .showSnackBar(SnackBar(content: Text('Try again later')));
+        }
+        //user-not-found
+        if (e.code == 'wrong-password') {
+          scaffoldKey.currentState
+              .showSnackBar(SnackBar(content: Text('Wrong Password')));
+        }
+        if (e.code == 'user-not-found') {
+          scaffoldKey.currentState
+              .showSnackBar(SnackBar(content: Text('Wrong Email Typed')));
         }
       }
     }
@@ -151,6 +163,8 @@ class _LoginPageState extends State<LoginPage> {
                   : Icon(CupertinoIcons.eye, color: Colors.black),
               onPressed: () {
                 setState(() {
+                  // false = true
+                  //true = false
                   seePassword = !seePassword;
                 });
               },
@@ -160,34 +174,35 @@ class _LoginPageState extends State<LoginPage> {
           obscureText: seePassword,
           // ignore: missing_return
           validator: (val) {
-            if (val.length <= 6) {
-              if (val.isEmpty) {
-                return 'Field Cannot Be Empty';
-              }
-              if (val.length < 5) {
-                return 'Password Cant not be less than 7 Characters';
-              }
-              if (val.length > 7) {
-                return 'Password Cant not be More than 25 Characters';
-              }
-              return null;
+            if (val.isEmpty) {
+              return 'Field Cannot Be Empty';
             }
+            if (val.length < 5) {
+              return 'Password Cant not be less than 5 Characters';
+            }
+            if (val.length > 9) {
+              return 'Password Cant not be More than 7 Characters';
+            }
+            return null;
           },
           onSaved: (String value) => _password = value,
         ),
         sizeBox(),
-        Switch(
-          value: isSwitched,
-          onChanged: (value) {
-            setState(() {
-              isSwitched = value;
-              print(isSwitched);
-            });
-          },
-          inactiveTrackColor: Colors.black12,
-          activeTrackColor: Colors.black26,
-          activeColor: Colors.teal,
-          inactiveThumbColor: Colors.black,
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 70),
+          child: Switch(
+            value: isSwitched,
+            onChanged: (value) {
+              setState(() {
+                isSwitched = value;
+                print(isSwitched);
+              });
+            },
+            inactiveTrackColor: Colors.black12,
+            activeTrackColor: Colors.black26,
+            activeColor: Colors.teal,
+            inactiveThumbColor: Colors.black,
+          ),
         )
       ];
     } else {
