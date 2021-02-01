@@ -4,6 +4,9 @@ import 'package:newsapplication/screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
+  final String image, cntryName;
+  HomePage({this.image, this.cntryName});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -13,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Testing'),
+        title: Text(widget.cntryName),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.logout),
@@ -27,7 +30,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Center(
-        child: Text('ABCS'),
+        child: Image.network(widget.image),
       ),
     );
   }
