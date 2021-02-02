@@ -41,6 +41,7 @@ class _CountrySelectionState extends State<CountrySelection> {
       countryName: 'Canada',
     ),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +65,7 @@ class _CountrySelectionState extends State<CountrySelection> {
       body: SingleChildScrollView(
         child: Center(
             child: ListView.builder(
-          scrollDirection: Axis.horizontal,
+          // scrollDirection: Axis.horizontal,
           physics: ClampingScrollPhysics(),
           shrinkWrap: true,
           itemCount: countrySelection.length,
@@ -94,7 +95,7 @@ class CountryTile extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => HomePage(
                       image: imageUrl,
-                      cntryName: countryName,
+                      cntryCode: countryCode,
                     )));
       },
       child: Center(
