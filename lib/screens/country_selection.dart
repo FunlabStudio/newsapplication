@@ -12,13 +12,13 @@ class _CountrySelectionState extends State<CountrySelection> {
   List<CountryModel> countrySelection = <CountryModel>[
     CountryModel(
       imgUrl: 'https://www.worldometers.info/img/flags/small/tn_ca-flag.gif',
-      countryCode: 'ca',
-      countryName: 'Canada',
+      countryCode: 'cn',
+      countryName: 'China',
     ),
     CountryModel(
       imgUrl: 'https://www.worldometers.info/img/flags/small/tn_ca-flag.gif',
-      countryCode: 'ca',
-      countryName: 'Pakistan',
+      countryCode: 'us',
+      countryName: 'Unknown',
     ),
     CountryModel(
       imgUrl: 'https://www.worldometers.info/img/flags/small/tn_ca-flag.gif',
